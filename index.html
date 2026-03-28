@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="dark" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thắng Nguyễn — Portfolio</title>
+  <meta name="description" content="Portfolio cá nhân — .NET Developer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+  <style>
+    :root {
+      --pf-brand: #facc15;
+      --pf-brand-hover: #fde047;
+      --pf-brand-dim: #ca8a04;
+      --pf-bg: #09090b;
+      --pf-surface: #18181b;
+      --pf-surface-2: #27272a;
+      --pf-text: #d4d4d8;
+      --pf-muted: #a1a1aa;
+    }
+
+    html { scroll-padding-top: 5.5rem; scroll-behavior: smooth; }
+    .tracking-wide { letter-spacing: 0.06em; }
+    .tracking-tight { letter-spacing: -0.02em; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--pf-bg);
+      color: var(--pf-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .text-brand { color: var(--pf-brand) !important; }
+    .border-pf { border-color: var(--pf-surface-2) !important; }
+    .bg-pf { background-color: var(--pf-bg) !important; }
+    .bg-pf-surface { background-color: var(--pf-surface) !important; }
+
+    .pf-header {
+      z-index: 1030;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--pf-surface-2);
+    }
+
+    .pf-nav-link {
+      color: var(--pf-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .pf-nav-link:hover { color: var(--pf-brand); }
+
+    .pf-btn-menu {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid var(--pf-surface-2);
+      border-radius: 0.75rem;
+      background: transparent;
+      color: #e4e4e7;
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .pf-btn-menu:hover {
+      border-color: var(--pf-brand);
+      color: var(--pf-brand);
+      background: var(--pf-surface);
+    }
+    .pf-btn-menu:active { transform: scale(0.95); }
+
+    .pf-mobile-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 4.25rem;
+      z-index: 1025;
+      max-height: min(70vh, calc(100dvh - 4.25rem));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: rgba(24, 24, 27, 0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--pf-surface-2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .pf-mobile-panel a {
+      display: block;
+      padding: 0.75rem 0.75rem;
+      border-radius: 0.75rem;
+      color: #e4e4e7;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .pf-mobile-panel a:hover,
+    .pf-mobile-panel a:active {
+      background: var(--pf-surface-2);
+      color: var(--pf-brand);
+    }
+
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(39, 39, 42, 0.8);
+      background: linear-gradient(to bottom, var(--pf-bg), var(--pf-surface), #000);
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(250, 204, 21, 0.12), transparent);
+    }
+
+    .pf-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--pf-bg);
+      background: var(--pf-brand);
+      border: none;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      box-shadow: 0 10px 25px -5px rgba(250, 204, 21, 0.25);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .pf-btn-primary:hover {
+      background: var(--pf-brand-hover);
+      color: var(--pf-bg);
+      box-shadow: 0 12px 28px -5px rgba(250, 204, 21, 0.35);
+    }
+
+    .pf-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f4f4f5;
+      background: rgba(24, 24, 27, 0.8);
+      border: 1px solid #52525b;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .pf-btn-outline:hover {
+      border-color: var(--pf-brand);
+      background: var(--pf-surface-2);
+      color: var(--pf-brand);
+    }
+
+    .pf-avatar-wrap { position: relative; }
+    .pf-avatar-glow {
+      position: absolute;
+      inset: -1rem;
+      border-radius: 1.5rem;
+      background: linear-gradient(to bottom right, rgba(250, 204, 21, 0.25), transparent);
+      filter: blur(32px);
+      pointer-events: none;
+    }
+    .pf-avatar {
+      position: relative;
+      width: 16rem;
+      height: 16rem;
+      max-width: 100%;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      border: 4px solid var(--pf-surface-2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      outline: 2px solid rgba(250, 204, 21, 0.4);
+      outline-offset: 0;
+    }
+    @media (min-width: 576px) {
+      .pf-avatar { width: 18rem; height: 18rem; }
+    }
+
+    .pf-skill-card {
+      border-radius: 1rem;
+      border: 1px solid var(--pf-surface-2);
+      background: rgba(24, 24, 27, 0.8);
+      padding: 1.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .pf-skill-card:hover {
+      border-color: rgba(250, 204, 21, 0.45);
+      box-shadow: 0 4px 20px rgba(250, 204, 21, 0.06);
+    }
+
+    .pf-progress {
+      height: 0.5rem;
+      border-radius: 9999px;
+      background: var(--pf-surface-2);
+      overflow: hidden;
+    }
+    .pf-progress-bar {
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(to right, var(--pf-brand-dim), var(--pf-brand));
+      transition: width 0.5s ease;
+    }
+
+    .pf-project-card {
+      border-radius: 1rem;
+      border: 1px solid var(--pf-surface-2);
+      background: rgba(9, 9, 11, 0.6);
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.2s, box-shadow 0.2s;
+    }
+    .pf-project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(250, 204, 21, 0.35);
+      box-shadow: 0 20px 40px -15px rgba(250, 204, 21, 0.12);
+    }
+    .pf-project-card .ratio img {
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .pf-project-card:hover .ratio img { transform: scale(1.05); }
+
+    .pf-github-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f4f4f5;
+      background: var(--pf-surface);
+      border: 1px solid #52525b;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .pf-github-btn:hover {
+      border-color: var(--pf-brand);
+      background: var(--pf-brand);
+      color: var(--pf-bg);
+    }
+
+    .pf-form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      color: #f4f4f5;
+      background: var(--pf-surface);
+      border: 1px solid var(--pf-surface-2);
+      border-radius: 0.75rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .pf-form-control::placeholder { color: #71717a; }
+    .pf-form-control:focus {
+      outline: none;
+      border-color: var(--pf-brand);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2);
+    }
+
+    .pf-social {
+      display: inline-flex;
+      width: 3rem;
+      height: 3rem;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--pf-surface-2);
+      border-radius: 0.75rem;
+      background: var(--pf-surface);
+      color: var(--pf-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .pf-social:hover {
+      border-color: var(--pf-brand);
+      background: var(--pf-brand);
+      color: var(--pf-bg);
+    }
+
+    .contact-section {
+      background: linear-gradient(to bottom, var(--pf-bg), #000);
+    }
+
+    [x-cloak] { display: none !important; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(1.25rem);
+        transition:
+          opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform;
+      }
+      .scroll-reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        will-change: auto;
+      }
+      .scroll-reveal-stagger > * {
+        opacity: 0;
+        transform: translateY(1rem);
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .scroll-reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+      .scroll-reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.12s; }
+      .scroll-reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.19s; }
+      .scroll-reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.26s; }
+      .scroll-reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.33s; }
+      .scroll-reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 0.4s; }
+      .scroll-reveal-stagger.is-visible > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-reveal,
+      .scroll-reveal-stagger > * {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body
+  x-data="{ mobileOpen: false }"
+  x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 768) mobileOpen = false })"
+  x-effect="document.documentElement.classList.toggle('overflow-hidden', mobileOpen)"
+  @keydown.escape.window="mobileOpen = false"
+>
+  <header class="pf-header sticky-top" @click.outside="mobileOpen = false">
+    <div class="container py-3 px-3 px-sm-4">
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <a href="#" class="fs-5 fw-bold text-white text-decoration-none lh-sm tracking-tight">
+          Thắng Nguyễn
+        </a>
+
+        <nav class="d-none d-md-flex align-items-center gap-4" aria-label="Chính">
+          <a href="#about" class="pf-nav-link">About</a>
+          <a href="#skills" class="pf-nav-link">Skills</a>
+          <a href="#projects" class="pf-nav-link">Projects</a>
+          <a href="#contact" class="pf-nav-link">Contact</a>
+        </nav>
+
+        <button
+          type="button"
+          class="pf-btn-menu d-md-none"
+          @click.stop="mobileOpen = !mobileOpen"
+          :aria-expanded="mobileOpen"
+          aria-controls="mobile-menu"
+          :aria-label="mobileOpen ? 'Đóng menu' : 'Mở menu'"
+        >
+          <i class="fa-solid fa-bars fa-lg" x-show="!mobileOpen"></i>
+          <i class="fa-solid fa-xmark fa-lg" x-show="mobileOpen" x-cloak></i>
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="mobile-menu"
+      x-show="mobileOpen"
+      x-cloak
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="pf-mobile-panel d-md-none px-3 py-3"
+    >
+      <nav class="d-flex flex-column gap-1" aria-label="Mobile">
+        <a href="#about" @click="mobileOpen = false">About</a>
+        <a href="#skills" @click="mobileOpen = false">Skills</a>
+        <a href="#projects" @click="mobileOpen = false">Projects</a>
+        <a href="#contact" @click="mobileOpen = false">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container position-relative py-5 px-3 px-sm-4">
+        <div class="scroll-reveal row align-items-center g-5 g-lg-5 py-lg-4">
+          <div class="col-lg-6 order-2 order-lg-1">
+            <p class="small fw-semibold text-uppercase text-brand tracking-wide mb-2">Xin chào</p>
+            <h1 class="display-5 fw-bold text-white mb-3">
+              Xin chào, tôi là <span class="text-brand">Thắng</span>
+            </h1>
+            <p class="fs-5 fw-medium text-secondary mb-2">.NET Developer</p>
+            <p class="text-secondary mb-4 mb-lg-5 pe-lg-4" style="max-width: 36rem; line-height: 1.7;">
+              Tôi xây dựng ứng dụng web và API bằng hệ sinh thái .NET, tập trung vào hiệu năng, bảo mật và trải nghiệm người dùng.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a href="#projects" class="pf-btn-primary">
+                <span>Xem dự án</span>
+                <i class="fa-solid fa-arrow-down small opacity-90"></i>
+              </a>
+              <a href="#contact" class="pf-btn-outline">
+                <span>Liên hệ</span>
+                <i class="fa-solid fa-envelope small"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-1 order-lg-2 d-flex justify-content-center justify-content-lg-end">
+            <div class="pf-avatar-wrap">
+              <div class="pf-avatar-glow" aria-hidden="true"></div>
+              <img
+                src="image/avatar.jpg"
+                alt="Ảnh đại diện Thắng Nguyễn"
+                width="320"
+                height="320"
+                class="pf-avatar"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="bg-pf-surface border-bottom border-pf py-5">
+      <div class="scroll-reveal container px-3 px-sm-4 py-1">
+        <p class="small fw-semibold text-uppercase text-brand mb-2">About</p>
+        <h2 class="h2 fw-bold text-white mb-4">Giới thiệu ngắn</h2>
+        <div class="text-secondary" style="max-width: 48rem; line-height: 1.75;">
+          <p class="mb-3">
+            Tôi là lập trình viên backend với niềm đam mê công nghệ và việc giải quyết bài toán thực tế bằng code. Tôi thích học kiến trúc phần mềm, tối ưu hiệu năng và làm việc trong môi trường có quy trình rõ ràng.
+          </p>
+          <p class="mb-0">
+            Ngoài giờ làm, tôi thường đọc tài liệu Microsoft Learn, thử nghiệm Azure và chia sẻ kinh nghiệm với cộng đồng. Mục tiêu của tôi là xây dựng sản phẩm ổn định, dễ bảo trì và mang lại giá trị cho người dùng.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="bg-pf py-5">
+      <div class="container px-3 px-sm-4">
+        <div class="scroll-reveal mb-4 mb-md-5">
+          <p class="small fw-semibold text-uppercase text-brand mb-2">Skills</p>
+          <h2 class="h2 fw-bold text-white mb-0">Kỹ năng chính</h2>
+        </div>
+        <div class="scroll-reveal-stagger row g-4">
+          <div class="col-sm-6">
+            <div class="pf-skill-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold text-white">C#</span>
+                <span class="small text-brand">92%</span>
+              </div>
+              <div class="pf-progress"><div class="pf-progress-bar" style="width: 92%"></div></div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="pf-skill-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold text-white">.NET 8</span>
+                <span class="small text-brand">90%</span>
+              </div>
+              <div class="pf-progress"><div class="pf-progress-bar" style="width: 90%"></div></div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="pf-skill-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold text-white">Azure</span>
+                <span class="small text-brand">82%</span>
+              </div>
+              <div class="pf-progress"><div class="pf-progress-bar" style="width: 82%"></div></div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="pf-skill-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold text-white">Docker</span>
+                <span class="small text-brand">78%</span>
+              </div>
+              <div class="pf-progress"><div class="pf-progress-bar" style="width: 78%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="bg-pf-surface border-top border-bottom border-pf py-5">
+      <div class="container px-3 px-sm-4">
+        <div class="scroll-reveal mb-4 mb-md-5">
+          <p class="small fw-semibold text-uppercase text-brand mb-2">Projects</p>
+          <h2 class="h2 fw-bold text-white mb-0">Dự án nổi bật</h2>
+        </div>
+        <div class="scroll-reveal-stagger row g-4">
+          <div class="col-sm-6 col-xl-3">
+            <article class="pf-project-card h-100 d-flex flex-column">
+              <div class="ratio ratio-16x9 bg-dark overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=340&fit=crop" alt="Dự án API xác thực" width="600" height="340" />
+              </div>
+              <div class="d-flex flex-column flex-grow-1 p-4">
+                <h3 class="h5 fw-bold text-white mb-2">Identity &amp; SSO API</h3>
+                <p class="small text-secondary flex-grow-1 mb-4" style="line-height: 1.65;">
+                  Dịch vụ đăng nhập OIDC/JWT, refresh token và tích hợp Azure AD B2C cho ứng dụng đa nền tảng.
+                </p>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="pf-github-btn w-auto align-self-start">
+                  <i class="fa-brands fa-github"></i> Xem Code
+                </a>
+              </div>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="pf-project-card h-100 d-flex flex-column">
+              <div class="ratio ratio-16x9 bg-dark overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=340&fit=crop" alt="Dự án Task Manager" width="600" height="340" />
+              </div>
+              <div class="d-flex flex-column flex-grow-1 p-4">
+                <h3 class="h5 fw-bold text-white mb-2">Task Manager SaaS</h3>
+                <p class="small text-secondary flex-grow-1 mb-4" style="line-height: 1.65;">
+                  Ứng dụng quản lý công việc đa tenant, tích hợp Azure AD và lưu trữ blob cho tệp đính kèm.
+                </p>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="pf-github-btn w-auto align-self-start">
+                  <i class="fa-brands fa-github"></i> Xem Code
+                </a>
+              </div>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="pf-project-card h-100 d-flex flex-column">
+              <div class="ratio ratio-16x9 bg-dark overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=340&fit=crop" alt="Dự án Analytics Dashboard" width="600" height="340" />
+              </div>
+              <div class="d-flex flex-column flex-grow-1 p-4">
+                <h3 class="h5 fw-bold text-white mb-2">Analytics Dashboard</h3>
+                <p class="small text-secondary flex-grow-1 mb-4" style="line-height: 1.65;">
+                  Bảng điều khiển báo cáo real-time với SignalR, SQL Server và cache Redis trên Azure.
+                </p>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="pf-github-btn w-auto align-self-start">
+                  <i class="fa-brands fa-github"></i> Xem Code
+                </a>
+              </div>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="pf-project-card h-100 d-flex flex-column">
+              <div class="ratio ratio-16x9 bg-dark overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=340&fit=crop" alt="Dự án E-commerce API" width="600" height="340" />
+              </div>
+              <div class="d-flex flex-column flex-grow-1 p-4">
+                <h3 class="h5 fw-bold text-white mb-2">E-commerce API</h3>
+                <p class="small text-secondary flex-grow-1 mb-4" style="line-height: 1.65;">
+                  API đặt hàng, giỏ hàng, thanh toán và quản lý kho — .NET 8, Clean Architecture, container hóa với Docker.
+                </p>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="pf-github-btn w-auto align-self-start">
+                  <i class="fa-brands fa-github"></i> Xem Code
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section py-5">
+      <div class="scroll-reveal container px-3 px-sm-4">
+        <p class="small fw-semibold text-uppercase text-brand mb-2">Contact</p>
+        <h2 class="h2 fw-bold text-white mb-4 mb-md-5">Liên hệ với tôi</h2>
+        <div class="row g-5">
+          <div class="col-lg-7">
+            <form action="#" method="post" onsubmit="event.preventDefault(); alert('Đây là form mẫu — bạn có thể kết nối backend hoặc dịch vụ form sau.');">
+              <div class="d-flex flex-column gap-4">
+                <div>
+                  <label for="email" class="form-label text-secondary small fw-medium">Email</label>
+                  <input type="email" id="email" name="email" required placeholder="ban@email.com" class="pf-form-control" />
+                </div>
+                <div>
+                  <label for="subject" class="form-label text-secondary small fw-medium">Chủ đề</label>
+                  <input type="text" id="subject" name="subject" required placeholder="Ví dụ: Hợp tác dự án" class="pf-form-control" />
+                </div>
+                <div>
+                  <label for="message" class="form-label text-secondary small fw-medium">Nội dung</label>
+                  <textarea id="message" name="message" rows="5" required placeholder="Viết tin nhắn của bạn..." class="pf-form-control"></textarea>
+                </div>
+                <button type="submit" class="pf-btn-primary border-0 w-100 d-sm-inline-flex justify-content-center">
+                  Gửi tin nhắn
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-5">
+            <p class="text-secondary small mb-4" style="line-height: 1.7;">
+              Bạn cũng có thể kết nối qua mạng xã hội — tôi thường phản hồi trong vòng 1–2 ngày làm việc.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="pf-social" aria-label="GitHub">
+                <i class="fa-brands fa-github fa-lg"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="pf-social" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin-in fa-lg"></i>
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="pf-social" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f fa-lg"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black border-top border-pf py-5 text-secondary">
+    <div class="scroll-reveal container px-3 px-sm-4 text-center">
+      <p class="small fst-italic text-brand mb-3 mb-md-4 opacity-90">“Code sạch hôm nay là món quà cho chính mình ngày mai.”</p>
+      <p class="small text-muted mb-0">
+        © <span id="year"></span> Thắng Nguyễn. Đã đăng ký bản quyền (nội dung mẫu — chỉnh sửa theo nhu cầu).
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        },
+        { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
+      );
+
+      document.querySelectorAll('.scroll-reveal, .scroll-reveal-stagger').forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>
